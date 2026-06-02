@@ -23,12 +23,9 @@ android {
 
     signingConfigs {
 
-        // 🔥 FIX: DO NOT CREATE debug again, just modify existing
+        // 🔥 SAFE DEBUG (NO FILE DEPENDENCY)
         getByName("debug") {
-            storeFile = file("${rootDir}/debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
+            // default debug keystore used automatically
         }
 
         create("release") {
@@ -85,9 +82,7 @@ kotlin {
     jvmToolchain(17)
 }
 
-/**
- * Secrets plugin (SAFE)
- */
+// Secrets plugin
 secrets {
     propertiesFileName = ".env"
     defaultPropertiesFileName = ".env.example"
@@ -135,7 +130,6 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // KSP
     ksp(libs.androidx.room.compiler)
     ksp(libs.moshi.kotlin.codegen)
 }
