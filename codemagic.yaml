@@ -5,25 +5,24 @@ workflows:
 
     environment:
       java: 17
-
       vars:
         GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
     scripts:
 
-      - name: Checkout info
+      - name: Show files
         script: ls -la
 
-      - name: Fix missing env files (Secrets plugin)
+      - name: Create missing env files (Secrets plugin fix)
         script: |
           touch .env
           touch .env.example
-          echo "# Codemagic placeholder env" > .env.example
+          echo "# codemagic placeholder" > .env.example
 
-      - name: Fix Gradle permissions
+      - name: Make gradlew executable
         script: chmod +x gradlew
 
-      - name: Verify Gradle Wrapper
+      - name: Verify Gradle
         script: ./gradlew --version
 
       - name: Clean project
