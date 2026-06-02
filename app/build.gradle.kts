@@ -23,7 +23,8 @@ android {
 
     signingConfigs {
 
-        create("debug") {
+        // 🔥 FIX: DO NOT CREATE debug again, just modify existing
+        getByName("debug") {
             storeFile = file("${rootDir}/debug.keystore")
             storePassword = "android"
             keyAlias = "androiddebugkey"
@@ -32,6 +33,7 @@ android {
 
         create("release") {
             val keystorePath = System.getenv("KEYSTORE_PATH")
+
             if (keystorePath != null && file(keystorePath).exists()) {
                 storeFile = file(keystorePath)
                 storePassword = System.getenv("STORE_PASSWORD")
@@ -77,13 +79,15 @@ android {
 }
 
 /**
- * 🔥 FIX FOR AGP 8+ (IMPORTANT)
+ * 🔥 FIX FOR AGP 8+ (NO kotlinOptions)
  */
 kotlin {
     jvmToolchain(17)
 }
 
-// Secrets plugin
+/**
+ * Secrets plugin (SAFE)
+ */
 secrets {
     propertiesFileName = ".env"
     defaultPropertiesFileName = ".env.example"
@@ -131,6 +135,7 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    // KSP
     ksp(libs.androidx.room.compiler)
     ksp(libs.moshi.kotlin.codegen)
 }
