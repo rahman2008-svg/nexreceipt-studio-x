@@ -10,15 +10,16 @@ workflows:
 
     scripts:
 
-      - name: Prepare project
+      - name: Setup project
         script: ls -la
 
-      - name: Create env files (Secrets fix)
+      - name: Create env files (Secrets safe fix)
         script: |
           touch .env
           touch .env.example
+          echo "# codemagic placeholder" > .env.example
 
-      - name: Fix permissions
+      - name: Fix gradlew permissions
         script: chmod +x gradlew
 
       - name: Verify Gradle
