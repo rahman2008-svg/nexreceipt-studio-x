@@ -23,12 +23,9 @@ android {
 
     signingConfigs {
 
-        // SAFE DEBUG (Codemagic compatible)
-        create("debug") {
-            storeFile = file("${rootDir}/debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
+        // ✅ SAFE DEBUG (DO NOT CREATE AGAIN)
+        getByName("debug") {
+            // Android default debug keystore (Codemagic safe)
         }
 
         create("release") {
@@ -79,13 +76,15 @@ android {
 }
 
 /**
- * Kotlin toolchain fix (AGP 8+ safe)
+ * ✅ Kotlin JVM TOOLCHAIN (AGP 8+ SAFE)
  */
 kotlin {
     jvmToolchain(17)
 }
 
-// Secrets plugin
+/**
+ * ✅ Secrets plugin safe config
+ */
 secrets {
     propertiesFileName = ".env"
     defaultPropertiesFileName = ".env.example"
