@@ -1,0 +1,30 @@
+workflows:
+  android-build:
+    name: NexReceipt Studio X Build
+    max_build_duration: 60
+
+    environment:
+      vars:
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+      java: 17
+
+    scripts:
+      - name: Fix permissions
+        script: chmod +x gradlew
+
+      - name: Check files
+        script: ls -la
+
+      - name: Clean project
+        script: ./gradlew clean
+
+      - name: Build Debug APK
+        script: ./gradlew assembleDebug
+
+    artifacts:
+      - app/build/outputs/**/*.apk
+
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
