@@ -23,11 +23,12 @@ android {
 
     signingConfigs {
 
-        // ✅ SAFE DEBUG (DO NOT CREATE AGAIN)
+        // ✅ SAFE DEBUG (NO FILE DEPENDENCY, NO CRASH)
         getByName("debug") {
-            // Android default debug keystore (Codemagic safe)
+            // Uses default Android debug keystore automatically
         }
 
+        // ✅ RELEASE SAFE (CI/CD compatible)
         create("release") {
             val keystorePath = System.getenv("KEYSTORE_PATH")
 
@@ -76,14 +77,14 @@ android {
 }
 
 /**
- * ✅ Kotlin JVM TOOLCHAIN (AGP 8+ SAFE)
+ * ✅ FIX FOR AGP 8+ (NO kotlinOptions ERROR)
  */
 kotlin {
     jvmToolchain(17)
 }
 
 /**
- * ✅ Secrets plugin safe config
+ * ✅ SECRETS PLUGIN SAFE CONFIG
  */
 secrets {
     propertiesFileName = ".env"
@@ -92,9 +93,8 @@ secrets {
 
 dependencies {
 
+    // 🔥 COMPOSE CORE
     implementation(platform(libs.androidx.compose.bom))
-    implementation(platform(libs.firebase.bom))
-
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
 
@@ -104,23 +104,34 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
+    // 🔥 ICONS FIX (THIS WAS YOUR MAIN ERROR)
+    implementation("androidx.compose.material:material-icons-extended")
+
+    // 🔥 LIFECYCLE
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // 🔥 NAVIGATION
     implementation(libs.androidx.navigation.compose)
 
+    // 🔥 DATABASE
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
+    // 🔥 NETWORK
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
     implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.kotlin.codegen)
 
+    // 🔥 COROUTINES
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
+    // 🔥 TEST
     testImplementation(libs.junit)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.androidx.core)
@@ -131,7 +142,4 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.moshi.kotlin.codegen)
 }
