@@ -23,9 +23,12 @@ android {
 
     signingConfigs {
 
-        // 🔥 SAFE DEBUG (NO FILE DEPENDENCY)
-        getByName("debug") {
-            // default debug keystore used automatically
+        // SAFE DEBUG (Codemagic compatible)
+        create("debug") {
+            storeFile = file("${rootDir}/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
         }
 
         create("release") {
@@ -76,7 +79,7 @@ android {
 }
 
 /**
- * 🔥 FIX FOR AGP 8+ (NO kotlinOptions)
+ * Kotlin toolchain fix (AGP 8+ safe)
  */
 kotlin {
     jvmToolchain(17)
