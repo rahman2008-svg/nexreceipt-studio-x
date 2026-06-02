@@ -1,19 +1,30 @@
 workflows:
   android-build:
-    name: NexReceipt Studio X Build
+    name: NexReceipt Studio X (CI Build)
     max_build_duration: 60
 
     environment:
-      vars:
-        GRADLE_OPTS: "-Dorg.gradle.daemon=false"
       java: 17
 
+      vars:
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
     scripts:
-      - name: Fix permissions
+
+      - name: Show project files
+        script: ls -la
+
+      - name: Fix missing env files (Secrets plugin support)
+        script: |
+          touch .env
+          touch .env.example
+          echo "# Codemagic placeholder env" > .env.example
+
+      - name: Grant permissions
         script: chmod +x gradlew
 
-      - name: Check files
-        script: ls -la
+      - name: Verify Gradle wrapper
+        script: ./gradlew --version
 
       - name: Clean project
         script: ./gradlew clean
