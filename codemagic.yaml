@@ -10,16 +10,16 @@ workflows:
 
     scripts:
 
-      - name: Show files
+      - name: Checkout files
         script: ls -la
 
-      - name: Create missing env files (Secrets plugin fix)
+      - name: Fix env files (Secrets plugin)
         script: |
           touch .env
           touch .env.example
           echo "# codemagic placeholder" > .env.example
 
-      - name: Make gradlew executable
+      - name: Fix gradlew permissions
         script: chmod +x gradlew
 
       - name: Verify Gradle
