@@ -66,10 +66,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
@@ -80,7 +76,14 @@ android {
     }
 }
 
-// Secrets plugin (SAFE CONFIG)
+/**
+ * 🔥 FIX FOR AGP 8+ (IMPORTANT)
+ */
+kotlin {
+    jvmToolchain(17)
+}
+
+// Secrets plugin
 secrets {
     propertiesFileName = ".env"
     defaultPropertiesFileName = ".env.example"
@@ -128,7 +131,6 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // KSP (FIXED SYNTAX)
     ksp(libs.androidx.room.compiler)
     ksp(libs.moshi.kotlin.codegen)
 }
